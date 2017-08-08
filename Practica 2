@@ -1,0 +1,23 @@
+##Ejercicio
+#Crear 3 variables de 4 entradas. Las variables de nombres:
+#Facultad (economia, ingenieria, arq y derecho )
+#licenciatura (actuaria, ingenieria civil, arquitectura, derecho)
+#Calificacion alumnos (6,4,10,8)
+#Verificar con r que tipo de variables son 
+#Borrar las variables facultad y licencitura
+#graficar con pie la variable calificacion 
+#incorporar los diversos arguemntos utilizados en clase
+
+facultad <- c("economia", "ingenieria", "arquitectura", "derecho")
+licenciatura <- c("actuaria", "ingenieria", "arquitectura", "derecho")
+calificacion <- c(6,4,10,8)
+class(facultad)
+class(licenciatura)
+class(calificacion)
+rm(facultad,licenciatura)
+ #Grafica
+pie(calificacion, calificacion, main= "Grafica de pie de 
+    calificaciones", 
+    sub = "Fuente: Facultades",
+    col = c("deepskyblue1","darkseagreen1","firebrick4","lightpink"), radius=1.0,
+    clockwise=TRUE, lty=1)
