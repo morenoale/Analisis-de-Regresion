@@ -1,0 +1,33 @@
+##########PRACTICA 5###########
+require(foreign)
+mti2015 <- read.dbf("C://Users//SALA-D7//Desktop//mti2015_05_17_sdem_precodificado.DBF")
+table(mti2015$SEX)
+install.packages("questionr")
+require(questionr)
+
+wtd.table(mti2015$SEX, weights = mti2015$FAC_MTI)
+ls (mti2015)
+sum (mti2015$FAC_MTI)
+table(mti2015$R_DEF_ENOE)
+table(mti2015$CS_P12)
+
+wtd.table(mti2015$CS_P12, weights = mti2015$FAC_MTI)
+wtd.table(mti2015$EDA,mti2015$CS_P12, weights = mti2015$FAC_MTI)
+
+edomex <- subset(mti2015,mti2015$ENT == 15)
+edomex
+
+edomexmuj <- subset(mti2015, mti2015$ENT == 15 & mti2015$SEX == 2)
+
+###Personas de aguascalientes y zacatecas
+
+aguascazacate <- subset (mti2015, mti2015$ENT == "01" | mti2015$ENT ==32)
+
+table (aguascazacate$ENT)
+
+#Para convertir a variable numerica
+as.numeric(mti2015$ENT)
+
+class(mti2015$ENT)
+
+##TAREA CONVERTIR A NUMERICO ENT
