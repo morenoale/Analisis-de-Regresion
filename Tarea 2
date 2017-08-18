@@ -1,0 +1,6 @@
+#######     Conversion a numerico       #######
+
+conver <- as.numeric(mti2015$ENT)     #funcion requerida             
+class (conver)                         #verificar que clase es.              
+aguacazacate <- subset (mti2015, cnver == 01 | cnver == 32)
+table(aguacazacate$ENT)                                                                                            
