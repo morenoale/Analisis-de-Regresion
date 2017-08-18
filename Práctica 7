@@ -1,0 +1,84 @@
+
+####### PRACTICA 7 ############
+
+temporal<-tempfile()
+download.file("http://www.beta.inegi.org.mx/contenidos/proyectos/enchogares/modulos/mti/2015/microdatos/mti2015_bases_conapo_dbf.zip",temporal)
+files=unzip(temporal,list=TRUE)$Name
+unzip(temporal,files=files[grepl("dbf",files)])
+install.packages("questionr")
+library(foreign)
+# mti2015 <- data.frame(read.dbf("semt117.dbf"))
+files
+mti <- data.frame(read.dbf( "mti2015_05_17_sdem_precodificado.DBF"))
+rm(mti15)
+
+mti$RAMA2 [ mti$RAMA ==1] <- 1
+mti$RAMA2[mti$RAMA ==2 | mti$RAMA ==3] <-2 
+mti$RAMA2 [mti$RAMA ==4 | mti$RAMA ==5] <-3
+mti$RAMA2 [mti$RAMA ==6 | mti$RAMA ==7] <- 4
+table (mti$RAMA2)
+table(mti$EDA)
+
+
+##Ejercicio
+#Recodificar la variable EDA en una nueva variable que se llame GPOEDA
+#y etiquetarla
+#Esta recodificacion debe quedar en 4 lineas del script
+#La recodificacion es la siguiente
+#5,6,7 -> 1 <- niños
+#8,9,10,11 -> 2 <- Preado
+#12,13,14 -> 3 <- ado
+#15,16,17 -> 4 <- Joven
+#Una vez que hayan realizado el ejercicio generar una tabla con datos 
+#expandidos y eportarla a excel. 
+
+
+install.packages("plyr")
+library(plyr)
+
+
+mti$EDA <- factor(mti$EDA,levels=c(1,2,3,4),labels=c("niños","preado","ado","joven"))
+table(mti$EDA)
+
+
+mti$GPOEDA [ mti$EDA =="05" | mti$EDA =="06" | mti$EDA =="07"] <- 1
+mti$GPOEDA [ mti$EDA =="08" | mti$EDA =="09" | mti$EDA =="10" | mti$EDA ==11 ] <-2 
+mti$GPOEDA [ mti$EDA =="12" | mti$EDA == "13" | mti$EDA == "14"] <-3
+mti$GPOEDA [ mti$EDA =="15" | mti$EDA == "16" | mti$EDA == "17"] <- 4
+
+table(mti$EDA)
+table(mti$GPOEDA)
+
+
+#############oTRA FORMA ################
+mti$EDA <- as.numeric(as.character(mti$EDA))
+table (mti$EDA)
+
+mti$GPOEDA [ mti$EDA >=5 & mti$EDA <=7 ] <- 1
+mti$GPOEDA [ mti$EDA >=8 & mti$EDA <=11  ] <-2 
+mti$GPOEDA [ mti$EDA >=12 & mti$EDA <=14] <-3
+mti$GPOEDA [ mti$EDA >=15 & mti$EDA <=17] <- 4
+
+
+table(mti$GPOEDA)
+
+mti$GPOEDA <- factor(mti$GPOEDA,levels = c(1,2,3,4),labels=c("niños","preado","ado","joven")
+
+table(mti$EDA)
+table(mti$GPOEDA)
+                     
+                     
+                     
+require (questionr)
+t <- wtd.table (mti$GPOEDA,weights = mti$FAC_MTI)
+t
+write.csv(t,file = "Practica1.csv")
+
+
+##TAREA
+#Con en csv abrir varios archivos EN UN MISMO LIBRO 
+# FUNCION XLS
+# GRAFICAR DE BARRAS LA VARIABLE GPEDA Y EXPORTARLA A UN PDF Y ENVIARLA SU CORREO
+#SOLO ENVIAR PDF 
+
+
