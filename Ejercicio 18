@@ -1,0 +1,50 @@
+##EJERCICIO 18
+
+# y= esfuerzo axial (MPa)
+# x=Esfuerzo cubico (MPa)
+
+
+# a)Obtenga la ecuación  de la recta de minimos cuadrados e interprete su pendiente(b1)
+# b)Calcule e interprete el coeficiente de determinacion
+# c) Calcule e interprete una estimación de la desviación estandar de error en el modelo 
+#     de regresión lineal simple
+x <- c(112.3,97,92.7,86,102,99.2,95.8,103.5,89,86.7)
+y <- c(75,71,57.7,48.7,74.3,73.3,68,59.3,57.8,48.5)
+
+
+# a)Calcular beta1 y beta0 por minimos cuadrados
+
+sxx=sum(x^2)-((sum(x)^2)/length(x))
+sxy=sum(x*y)-(sum(x)*sum(y)/length((x)))
+
+b1=sxy/sxx ## Pendiente
+b0= mean(y)-(b1*mean(x))  ##Punto de corte
+
+#ECUACION:       Y= b0+b1*x
+
+#Interpretación de su pendiente: Con este dato nosotros podriamos decir que con un incremento en x, se genera un aumento del .98 en y.(La correlación de los datos es positiva)
+
+#b)COeficiente de Determinacion
+SST<- sum((y-mean(y))^2)
+SSE <- sum((y-(b0+b1*x))^2)
+Rcuadrada <- 1-(SSE/SST)
+
+#Se interpreta como 63% de la variación observada en el esfuerzo axial es atribuible a la regresion linealque relaciona
+# el esfuerzo axial y el esfuerzo cubico.
+
+
+#c)Estimación de la desviación estandar
+scuadrada <- (SSE/15-2)
+scuadrada
+
+
+
+
+
+#Pra comprobar
+mdo1 <- lm(y~x)
+summary(mdo1)   #resumen
+
+##GRAFICA
+plot(y~x, xlab="Esfuerzo Cubico (MPa)", ylab="Esfuerzo Axial (MPa)",xlim=c(80,120),ylim=c(40,80),main="Grafica diagrama de dispersion")
+abline(mdo1,col="red")
