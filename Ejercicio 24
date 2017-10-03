@@ -1,0 +1,70 @@
+##### Ejercicio 24.
+
+# x = area superficial de la roca
+# y = densidad de la colonia
+
+# a) Ajuste el modelo de regresion lineal simple a estos datos,
+#    prediga la densidad de la colonia cuando el area superficial=70 
+#    y cuando el area superficial = 71 y calcule los residuos correspondientes. 
+#    ¿Cómo se comparan entre si?
+# b) Calcule e interprete el coeficiente de determinacion. 
+# c) La segunda observacion tiene un valor y muy extremo 
+#    y en el conjunto de datos completo que consta de 72 
+#    observaciones. habia dos de estos). Esta observacion 
+#    puede haber tenido un impacto sustancial en el ajuste 
+#    del modelo y en las conclusiones posteriores.
+#    Elimine y vuelva a calcular la ecuacion de la recta de regresion estimada. 
+#   ¿ Será que difiere sustancialmente de la ecuacion antes de la eliminacion?  
+#   ¿Cuál es el impacto en r^2 y en s?
+
+x <- c(50,71,55,50,33,58,79,26,69,44,37,70,20,45,49)
+y <- c(152,1929,48,22,2,5,35,7,269,38,171,13,43,185,25)
+
+## a) 
+sxx=sum(x^2)-((sum(x)^2)/length(x))
+sxy=sum(x*y)-(sum(x)*sum(y)/length((x)))
+b1=sxy/sxx
+b0= mean(y)-(b1*mean(x))
+
+#ECUACION:       Y= b0-b1*x
+#            y= -305.8813 - 9.9632(x)
+#cuando x=70
+x70=b0-b1*70
+x71 = b0-b1*71
+rel <- lm(y~x)
+summary(rel)   #resumen
+estpun <- b0+b1*70
+estpun
+estpun2 <- b0+b1*71
+estpun2
+
+
+###        b)
+
+SST<- sum((y-mean(y))^2)
+SSE <- sum((y-(b0+b1*x))^2)
+Rcuadrada <- 1-(SSE/SST)
+# Se interpreta como 63% de la variación observada
+# en la densidad de la colonia es atribuible a la regresion lineal que relaciona
+# el la densidad de la colonia y el area superficial de la roca
+
+
+
+
+###       c)
+w <- c(50,55,50,33,58,79,26,69,44,37,70,20,45,49)
+z <- c(152,48,22,2,5,35,7,269,38,171,13,43,185,25)
+
+sww=sum(w^2)-((sum(w)^2)/length(w))
+swz=sum(w*z)-(sum(w)*sum(z)/length((w)))
+b1_2=swz/sww
+b0_2= mean(z)-(b1_2*mean(w))
+
+#ECUACION:       Y= b0-b1*x
+#           y = 34.373358 -.7792306345(x)
+
+SS_T<- sum((z-mean(z))^2)
+SS_E <- sum((w-(b0_2+b1_2*w))^2)
+Rcuad <- 1-(SS_E/SS_T)
+# R^2=91.49%
+
