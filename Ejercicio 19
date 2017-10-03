@@ -1,0 +1,69 @@
+#EJERCICIO 19
+
+# x=tasa de liberación debido a área de quemador (MBtu/h-pie^2)
+# y=tasa de emision de NOx(ppm)
+
+
+#a)Suponiendo que el modelo de regresion lineal simple es válido,
+# obtenga la estimación de minimos cuadrados de la recta de regresión verdadera
+
+#b)¿Cuál es la estimación de la tasa de emisión de NOx esperada cuando la tasa de liberacion debido
+#   al área del quemador es igual a 225?
+
+
+#c)Estime la cantidad en la cual espera que cambie la tasa de emisiones de NOx
+##  cuando la tasa de liberación debida al área del quemador disminuye en 50.
+
+#d) ¿Utilizaria la recta de regresión estimada para predecir la tasa de emision
+## con una tasa de liberación de 500? ¿Por qué sí, o por qué no?
+
+
+x <- c(100, 125, 125, 150, 150, 200, 200, 250, 250, 300, 300, 350, 400,400)
+
+y <- c(150, 140, 180,210,190,320,280,400,430,440,390,600,610,670)
+
+
+
+##  a)
+sxx=sum(x^2)-((sum(x)^2)/length(x))
+sxy=sum(x*y)-(sum(x)*sum(y)/length((x)))
+
+b1=sxy/sxx
+b0= mean(y)-(b1*mean(x))
+
+
+##b)Estimacion puntual cuando x=225
+estpun <- b0+b1*225
+estpun
+
+#Cuando la tasa de liberación debido a área de quemador (MBtu/h-pie^2) es de 225
+# segun nuestra ecuacion la tasa de emision de NOx(ppm) sera de  340
+
+
+
+#c)Estime la cantidad en la cual espera que cambie la tasa de emisiones de NOx
+##  cuando la tasa de liberación debida al área del quemador disminuye en 50.
+
+estdis <-  b0+b1*(225-50)
+estdis
+
+#Cuando la tasa de liberación debido a área de quemador (MBtu/h-pie^2) disminuye en 50
+# segun nuestra ecuacion la tasa de emision de NOx(ppm) sera de  253
+
+
+#d) ¿Utilizaria la recta de regresión estimada para predecir la tasa de emision
+## con una tasa de liberación de 500? ¿Por qué sí, o por qué no?
+#  Si porque en la grafica de dispersion podemos notar que tienen una correlacion positiva, y la distancia de las observaciones a la recta es muy poca.
+
+
+
+
+
+##Para comprobar
+mdo1 <- lm(y~x)
+##resumen
+summary(mdo1)
+
+##GRAFICA
+plot(y~x, xlab="tasa de liberación debido a área de quemador (MBtu/h-pie^2)", ylab="tasa de emision de NOx(ppm)",xlim=c(90,400),ylim=c(100,700),main="Grafica diagrama de dispersion")
+abline(mdo1,col="red")
