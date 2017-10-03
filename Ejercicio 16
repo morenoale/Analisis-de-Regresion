@@ -1,0 +1,50 @@
+##EJERCICIO 16
+
+# x= volumen de precipitación pluvial (m^3)
+# y=volumen de escurrimiento (m^3)
+
+
+
+##a)¿Será que una gráfica de dispersión de los datos apoya el uso del modelo de regresión lineal simple?
+##b)Calcule las estimaciones puntuales de la pendiente y la intercepción de la recta de regresion de población
+##c)Calcule una estimación puntual del volumen de escurrimiento promedio verdadero cuando el volumen de precipitacion pluvial es de 50
+##d)Calcule una estimación puntual de la desviación estándar 
+##e)¿Que proposión de la variación observada del volumen de escurrimiento puede atribuirse a la relación de regresión lineal simple entre el escurrimiento y la precipitación pluvial?
+x <- c(5,12,14,17,23,30,40,47,55,67,72,81,96,112,127)
+y <- c(4,10,13,15,15,25,27,46,38,46,53,70,82,99,100)
+
+##a)
+#Si lo apoya ya que en esta podemos ver o darnos una idea de la correlacion de los datos
+
+#b)
+b1 <- cor(y,x)*(sd(y,na.rm = FALSE)/sd(x,na.rm = FALSE))
+b0 <- mean(y)-b1*mean(x)
+b1
+b0
+
+#c)Calcular la estimación puntual cuando x=50
+estpun <- b0+b1*50
+estpun
+##Cuando volumen de precipitación pluvial (m^3) es de 50 
+# segun nuestra ecuacion el volumen de escurrimiento (m^3) sera de 40.22
+
+
+#d)Estimacion de la desviacion estandar
+SSE <- sum((y-(b0+b1*x))^2)
+scuadrada <- (SSE/15-2)
+scuadrada
+
+##e)¿Que proposión de la variación observada del volumen de escurrimiento puede atribuirse a la relación de 
+#      regresión lineal simple entre el escurrimiento y la precipitación pluvial?
+## r= 97%
+
+
+
+##Para comprobar
+mdo1 <- lm(y~x)
+##resumen
+summary(mdo1)
+
+##GRAFICA
+plot(y~x, xlab="Volumen de precipitacion pluvial(m^3)", ylab="Volumen de escurrimiento(m^3)",xlim=c(0,130),ylim=c(0,100),main="Grafica diagrama de dispersion")
+abline(mdo1,col="red")
