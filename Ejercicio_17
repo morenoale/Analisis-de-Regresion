@@ -1,0 +1,69 @@
+#### Ejercicio 17
+
+# x = peso unitario. (por pie cubico) 
+# y = porosidad (%)
+
+# a) Obtenga la ecuacion de la recta de regresion estimada. A continuacion, cree un grafico de dispersion de datos y el grafico de la recta estimada, Sera que el modelo de la relacion puede explicar una gran parte de la variacion observada en y?
+# b) Interprete la pendiente de la recta de minimos cuadrados.
+# c) Que sucede si la estimacion lineal se utiliza pra predecir la porosidad cuando el paso unitario es de 135? Por que esto no es una buena idea?
+# d) Calcule los residuos corresponientes a las dos primeras observaciones
+# e) Calcule e interprete una estimacion puntual de sigma
+# f) Que proporcion de la variacion observada en la porosidad se puede atribuir a la relacio lineal aproximada entre el paso unitario y la porosidad?
+
+x <- c(99.0, 101.1, 102.7, 103, 105.4, 107, 108.7, 110.8, 112.1, 112.4, 113.6, 113.8, 115.1, 115.4, 120)
+y <- c(28.8, 27.9, 27, 25.2, 22.8, 21.5, 20.9, 19.6, 17.1, 18.9, 16, 16.7, 13, 13.6, 10.8)
+
+
+
+#####    a)
+sxx=sum(x^2)-((sum(x)^2)/length(x))
+sxy=sum(x*y)-(sum(x)*sum(y)/length((x)))
+b1=sxy/sxx
+b0= mean(y)-(b1*mean(x))
+
+#ECUACION:       Y= b0-b1*x
+#            y= 118.90991680 + 0.904730657(x)
+rel <- lm(y~x)
+
+#Grafica
+plot(y~x, xlab= "Precio unitario", ylab="Porosidad", xlim =c(99,120), ylim= c(29, 10), main="Grafica Diagrama de Dispersion")
+abline(rel, col="purple")
+# Si se puede observar gran relacion entre el peso unitario y la posrosidad, esto se visualiza en la grafica, tiene los punto muy cerca dela recta estimada
+
+
+
+#####    b)
+# Sinifica que por cada unidad que incrementa el peso unitario, se genera una reduccion de .9047 en la porosidad, 
+
+
+
+
+#####    c)
+x1=b0-(b1*135)
+x1
+# No es buena idea porque se obtendria un nivel de porosidad de  241.0486, y es un valor muy alto.
+
+
+##### d) 
+summary(rel)   #resumen
+estpun <- b0+b1*99
+estpun
+estpun2 <- b0+b1*101.1
+estpun2
+valor1 <- 28.8-estpun
+valor1
+valor2 <- 27.9-estpun2
+valor2
+
+
+
+##### e)
+SSE <- sum((y-(b0+b1*x))^2)
+scuadrada <- (SSE/15-2)
+scuadrada
+
+
+
+
+##### f) 
+#R=97%
