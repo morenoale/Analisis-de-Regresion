@@ -26,7 +26,7 @@ b0= mean(y)-(b1*mean(x))
 rel <- lm(y~x)
 
 #Grafica
-plot(y~x, xlab= "Precio unitario", ylab="Porosidad", xlim =c(99,120), ylim= c(29, 10), main="Grafica Diagrama de Dispersion")
+plot(y~x, xlab= "Precio unitario", ylab="Porosidad", xlim =c(99,120), ylim= c(10, 29), main="Grafica Diagrama de Dispersion")
 abline(rel, col="purple")
 # Si se puede observar gran relacion entre el peso unitario y la posrosidad, esto se visualiza en la grafica, tiene los punto muy cerca dela recta estimada
 
@@ -34,14 +34,16 @@ abline(rel, col="purple")
 
 #####    b)
 # Sinifica que por cada unidad que incrementa el peso unitario, se genera una reduccion de .9047 en la porosidad, 
-
+# por cada pie cubico que se incrementa el peso unitario, disminuye .9047 la porosidad
 
 
 
 #####    c)
-x1=b0-(b1*135)
+x1=b0+(b1*135)
 x1
 # No es buena idea porque se obtendria un nivel de porosidad de  241.0486, y es un valor muy alto.
+# la cantidad del peso para la que se desea estimar la porosidad esta fuera el rango de los valores con los que se estimo la recta de regresion
+
 
 
 ##### d) 
@@ -55,6 +57,10 @@ valor1
 valor2 <- 27.9-estpun2
 valor2
 
+
+res[c(1,2)]
+# residuo1= -0.5415817
+#residuo2= .4583527#########pendiente 
 
 
 ##### e)
