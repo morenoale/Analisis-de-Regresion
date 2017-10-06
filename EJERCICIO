@@ -134,3 +134,71 @@ r
 # R= 97.39%
 #Significa que el 97% de la variacion observada en la porosidad puede atribuirse a un modelo de regresion lineal simple, 
 # que relaciona el peso unitario por unidad cubica y el porcentaje de porosidad. 
+
+
+
+
+
+              
+
+                    ########            EJERCICIO 18            #########
+ # x=Esfuerzo cubico (MPa)
+# y= esfuerzo axial (MPa)
+
+
+# a)Obtenga la ecuación  de la recta de minimos cuadrados e interprete su pendiente(b1)
+# b)Calcule e interprete el coeficiente de determinacion
+# c) Calcule e interprete una estimación de la desviación estandar de error en el modelo 
+#     de regresión lineal simple
+x <- c(112.3,97,92.7,86,102,99.2,95.8,103.5,89,86.7)
+y <- c(75,71,57.7,48.7,74.3,73.3,68,59.3,57.8,48.5)
+
+        ##    a. 
+sxx = sum(x^2)- ((sum(x))^2/length(x))
+sxy = sum(x*y) - (sum(x)*sum(y)/length(y))
+b1 = sxy/sxx
+b0 = mean(y)- mean(x)*b1
+b1
+b0
+rel<- lm(y~x)
+rel
+# ECUACION
+# y = -31.90369 + .98697(x)
+# Significa que por cada unidad que aumenta el esfuerzo cubico, aumentaria .98697 el esfuerzo axial. 
+
+
+        ###  b.
+syy = sum(y^2) - ((sum(y))^2/length(y))
+sst=syy
+sse = sum((y-(b0+b1*x))^2)
+r = 1-(sse/sst)
+r
+summary(rel)
+# El 63% de la variacion observada en el esfuerzo axial, es atribuible a la regresion lineal que relaciona el numero de 
+# esfuerzo axial y el esfuerzo cubico. 
+
+
+
+        ###  c. 
+scuadrada = sse/(length(x)-2)
+scuadrada
+
+
+
+
+##GRAFICA
+plot(y~x, xlab="Esfuerzo Cubico (MPa)", ylab="Esfuerzo Axial (MPa)",xlim=c(80,120),ylim=c(40,80),main="Grafica diagrama de dispersion")
+abline(rel,col="purple")
+
+    # RESIDUOS
+rel$residuals
+rel$residuals[5]
+#otro metodo:
+estpunt= b0+b1*102
+res5= 74.3-estpunt
+res5
+
+
+
+
+
