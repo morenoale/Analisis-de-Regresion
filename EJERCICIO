@@ -1,4 +1,70 @@
+                          #### TAREA EJERCICIO 16 ####
 
+# x = volumen de precipitacion pluvial (m^3)
+# y = volumen de escurrimiento (m^3)
+
+x <- c(5,12,14,17,23,30,40,47,55,67,72,81,96,112,127)
+y <- c(4,10,13,15,15,25,27,46,38,46,53,70,82,99,100)
+
+# a. Sera que una grafica de dispersion de los datos apoya el uso del modelo de regresion simple?
+# b. Calcule las estimaciones puntuales y la intercepcion de la recta de regesion de la poblacion. 
+# c. Calcule una estimacion puntual del volumen del escurrimiento promedio verdadero cuando el volumen de precipitacion pluvial es de 50.
+# d. Calcule una estimacion puntual de la desviacion estandar,. 
+# e. Que proporcion de la vaiacion observada del volumen de escurrimiento puede atribuirse a la relacion de regresion lineal simple entre el escurrimiento y la precipitacion pluvial?
+
+                  # a. 
+rel <- lm(y~x)
+rel
+plot(y~x, xlab= "Volumen de precipitacion pluvial", ylab= "volumen de escurrimiento", xlim= c(5,127), ylim= c(4,100), main= "grafica de dispersion" )
+abline(rel, col= "purple")
+# Si apoya el modelo de regresion simple, porque los valores de las observaciones siguen un patron de la recta. 
+# estan cerca los puntos de la recta
+# existe duna correlacion positiva de los datos
+
+
+                  # b. 
+b1 <- cor(y,x)*(sd(y,na.rm = FALSE)/sd(x,na.rm = FALSE))
+b0 <- mean(y)-b1*mean(x)
+b1
+b0
+
+sxx= sum(x^2)- ((sum(x))^2/length(x))
+syy= sum(y^2)- ((sum(y))^2/length(y))
+sxy = sum(x*y) - (sum(x)*sum(y)/length(x))
+rm(b1)
+b1= sxy/sxx
+b1
+b0 <- mean(y)-b1*mean(x)
+b0
+
+sst=syy
+sse = sum((y-(b0+b1*x))^2)
+r = 1-(sse/sst)
+r
+# 97%
+
+summary(rel)
+
+
+                    #   c. 
+estpun = b0+b1*50
+estpun
+
+
+                    #   d.
+scuadrada = sse/(length(x)-2)
+scuadrada
+
+
+                    # e. 
+# R= 97%
+#Lo que significa que la variacion observada en el volumen de escurrimiento es atribuible a la regresion lineal 
+# que relaciona el volumen de escurrimeinto y el volumen de precipitacion pluvial. 
+
+
+
+
+                    
                     #########          Ejercicio 17          #########
 
 # x = peso unitario. (por pie cubico) 
