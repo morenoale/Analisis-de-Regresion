@@ -1,0 +1,70 @@
+
+                    #########          Ejercicio 17          #########
+
+# x = peso unitario. (por pie cubico) 
+# y = porosidad (%)
+
+# a) Obtenga la ecuacion de la recta de regresion estimada. A continuacion, cree un grafico de dispersion de datos y el grafico de la recta estimada, Sera que el modelo de la relacion puede explicar una gran parte de la variacion observada en y?
+# b) Interprete la pendiente de la recta de minimos cuadrados.
+# c) Que sucede si la estimacion lineal se utiliza pra predecir la porosidad cuando el paso unitario es de 135? Por que esto no es una buena idea?
+# d) Calcule los residuos corresponientes a las dos primeras observaciones
+# e) Calcule e interprete una estimacion puntual de sigma
+# f) Que proporcion de la variacion observada en la porosidad se puede atribuir a la relacio lineal aproximada entre el paso unitario y la porosidad?
+
+x <- c(99.0, 101.1, 102.7, 103, 105.4, 107, 108.7, 110.8, 112.1, 112.4, 113.6, 113.8, 115.1, 115.4, 120)
+y <- c(28.8, 27.9, 27, 25.2, 22.8, 21.5, 20.9, 19.6, 17.1, 18.9, 16, 16.7, 13, 13.6, 10.8)
+
+                        #       a. 
+sxx = sum(x^2)- ((sum(x))^2/length(x))
+sxy = sum(x*y) - (sum(x)*sum(y)/length(x))
+b1= sxy/sxx
+b0 = mean(y) - b1*mean(x)
+b1
+b0
+
+rel <- lm(y~x)
+rel
+# ECUACION:
+# y = 1128.9099 -.90473(x)
+plot(y~x, xlab= "peso unitario", ylab = "porosidad", xlim= c(99,120), ylim= c(10,29), main= "grafica de dispersion")
+abline(rel, col= "purple")
+
+                 
+# Si puede expresar una relacion entre la porosidad y el precio unitario, ya que los puntos observados son muy cercanos a la recta. Con una correlacion negativa. 
+
+
+
+
+                    #   b.
+# Por cada peso unitario por pie cubico que incremente, disminuye .9047 el porcentaje de porosidad.
+
+
+
+
+                    #     c. 
+x135= b0+b1*135
+x135
+# no es una buena idea porque 135 esta fuera del rango de los valores de las observaciones. 
+
+
+                    #     d.
+rel$residuals[1]
+rel$residuals[2]
+estpun1 = b0+b1*99
+valor1= 28.8- estpun1
+valor1
+
+                    #     e.
+sse = sum((y-(b0+b1*x))^2)
+scuadrada = sse/length(x)
+scuadrada
+
+
+                    #     f.
+syy = sum(y^2)- ((sum(y))^2/length(y))
+sst=syy
+r= 1-(sse/sst)
+r
+# R= 97.39%
+#Significa que el 97% de la variacion observada en la porosidad puede atribuirse a un modelo de regresion lineal simple, 
+# que relaciona el peso unitario por unidad cubica y el porcentaje de porosidad. 
