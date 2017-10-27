@@ -1,0 +1,80 @@
+#######     EJERCICIO     #########
+# Plantear un MRM de minimo 4 variables independientes
+# a este modelo que planteen van a realizar lo siguiente: 
+# 1) Analizar la anova para conocer la bondad de ajuste
+# 2) a traves de los coeficientes detectar las variables independientes no significativas
+# 3) Analizar la r2 para conocer la variabilidad del modelo 
+# 4) En dado caso de que haya alguna variable independiente no significativa
+#     eliminarla y diagnosticar el modelo a traves de las pruebas para los supuesto.
+
+promedio <- c(8.1,7.5,6.2,7.4,6.6,7.9,8.6,9.3,6.8,8.2)
+horasestudio <- c(8,7,6,7,6,7,8,9,6,8)
+horasocio <- c(16,18,17,18,20,19,28,15,25,14)
+horasueño <- c(50,55,58,56,62,58,60,50, 45, 50)
+materias <- c(6,6,7,7,6,7,6,5,6,6)
+
+base1 <- data.frame(promedio, horasestudio, horasocio, horasueño, materias)
+
+modelo <- lm(promedio ~ materias + horasestudio + horasocio + horasueño )
+summary(modelo)
+
+
+anova (modelo)
+
+#######        1) 
+#una vez que aplicamos anova se va a revisar los valores del estadisctico F
+# y los p - value con la finalidad de conocer la bondad de ajuste del MRM
+# en este caso se observa que en la variable independiente (horas de estudio semanal) se tiene un
+# estadistico F de 75.5059, lo que es un buen estadistico F debido a que se 
+# esperan valores mayores a 1, para los p - value se espera un p-value<.05
+# y la variable horas de sueño tiene un p value <.05 con lo que podriamos decir que la variable calidad
+# es significatico en nuestro modelo. 
+
+
+
+#     #### 2) Las horas de sueño, no es estadisticamente significativas, 
+# por lo que se puede eliminar.
+# y la variable horas de sueño tiene un p value <.05 con lo que podriamos decir que la variable calidad
+# es significatico en nuestro modelo. 
+
+
+# 3) Analizar la r2 para conocer la variabilidad del modelo 
+# Se revisa la r^2 ajustada, debido a que es un MRM y la r^2 ajustada
+# tiene un valor de 0.9278, lo que implica que la recta de regresion 
+# explica en 93% la variabilidad del modelo 
+
+
+
+# 4) En dado caso de que haya alguna variable independiente no significativa
+#     eliminarla y diagnosticar el modelo a traves de las pruebas para los supuesto.
+
+base2 <- data.frame(promedio, horasestudio, horasocio, materias)
+
+modelo1 <- lm(promedio ~ materias + horasestudio + horasocio )
+summary(modelo1)
+# Podemos concluir, que si eliminamos la variable independiente horas de sueño, 
+# el modelo tiene mejor ajuste. con una R^2 de .9399
+# lo que explica el 94% la variabilidad del modelo 
+
+
+
+
+
+
+
+#############SUPUESTO     ####
+
+names (modelo1) # que componentes tiene
+
+base2$fitted.modelo1 <- fitted (modelo1)
+base2$residuals.modelo1 <- residuals(modelo1)
+base2$rstudent.modelo1 <- rstudent(modelo1)
+# Diagnosticos de los supuestos 
+# Supuesto numero 1. Normalidad 
+# para el supuesto de normalidad se aplica la prueba de Shapiro 
+# en r la funcion que aplica esta prueba es shapiro.test 
+
+shapiro.test(base2$rstudent.modelo1)
+
+# En esta prueba esperamos un p-value mayor a .05 y en este caso de obtiene 
+# un p-value mayor a .05 (.5391) por lo que podriamos decri que se acepta el supuesto de normalidad
