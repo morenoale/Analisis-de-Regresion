@@ -1,0 +1,88 @@
+
+### COMPARACION DE MODELOS. ###
+#Pretendemos seleccionar el mejor subconjunto de predictores. 
+# En este caso para la aplicacion de MRM tenemos 2 variables
+# independientes (calidad y capacidad) por lo que se propone 
+# comparar 3 modelos con la finalidad de aplicar el 
+# princiupio de parsimonia, conocer variables indep innecesarias
+# evitar multicolinealiada, es decir, que se tienen 
+# muchas variables intentando explicar el modelo 
+# Ante estas variables se pueden comparar tres modelos 
+# 1) precio ~ capacidad
+# 2) precio ~ calidad
+# 3) precio ~ calidad + capacidad
+
+### ¿COMO SELECCIONAMOS EL MEJOR MODELO? 
+# Criterio de informacion de Akaike (AIC)
+# Casos al añadir nuevas variables al modelo, esta medida crece. 
+# si estamos decidiendo cual de todos lo modelos ajusta mejor a los 
+# el modelo con mas predictores siempre sera, el mejor ajustando. 
+# Para evitar esto se utiliza el AIC, una medida de ajuste 
+# fue oenalizada el modelo por tener mas variables, viene definido por 
+# AIC = (n)(log(SCR/n))+ 2k
+# SCR 0 suma de cuadrados residuales
+# n es el numero de casos en el modelo 
+# k es el numero de variables independientes. 
+# El criterio que se utiliza para el AIC es elegir el modelo 
+# que tenga el menos valor del AIC, es decir, esperamos un AIC
+# mas pequeño. El AIC nos va a ayudar a decidir sobre la comparacion 
+# de los modelos 
+# El metodo mas recomendado es el metodo de step by step
+# para r se utiliza la funcion step()
+# adentro del metodo de stpe by step hay 3 modalidades
+# 1) Forward... parte de coeficiente Bo y de ahi va probando 
+# las variables independientes ara ver cual es la que maa aporta al modelo 
+# 2) backward... R empieza con todas las variables independiewntes y estudia si
+# el AIC baja cuando hay cambios de variables. 
+# 3) Both... empieza como el forward la diferencia es que se
+# realizan test para conocer el predictor menos util
+# el metodo mas recomendable es el backward porque tienen un efecto 
+# represor que permite probar cuando una variables tiene influencoa solo si 
+# otra variable se mantiene constante vamos a calcular el modelo con 
+# las 2 variables independientes 
+# Variable 1 capacidad (tamaño)
+capa <- c(4330,5500,5550,4700,5200,5500,4700,5500,5800,5000)
+# variable 2 calidad
+calidad <- c(2,3,4,3,4,4,4,5,5,5)
+# Variable 3 (dependiente)
+precio <- c(190,219,249,249,250,340,289,395,439,525)
+moch <- data.frame(precio, capa, calidad)
+mod1 <- lm(precio ~ capa+calidad, data=moch)
+summary(mod1)
+
+
+# En los coeficientes observamos el estadistico T que solo tenemos 
+# significatico la variable calidad. 
+# tenemos un error estandar residual de 58.75 que es un error alto 
+# tambien observamos la r ajustada (por mrm) qye tenemos una r
+# ajustada de .70, lo que explica 70 por ciento de la variabilidad
+# del modelo observamos que tenemos un estadistico F como un buen valor
+# y p value menos a .05 que implica que este modelo es mejor que
+# el modelo basico ahora vamos a utilizar la funcion step ()
+# para ver su podemos mejorar el ajuste del modelo. 
+step (mod1, direction = "backward")
+
+# De aqui podemos ver que el metodo step analizo 2 modelos
+# 1) precio ~ capa + calidad con un AIC = 83.76
+# 2) precio ~ calidad con un AIC 0 83.51
+
+# Ahora vamos a probar con el metodo both
+step (mod1,direction = "both")
+# tenemos un resultado igual al de backward por la froma que se 
+# construye este modelo ahora con el metodo de forward
+step(mod1, direction = "forward")
+# en este solo se muestra el modelo completo porque inicia haceindo 
+# pruebas con el modelo nuelo y solo deja el modelo completo porque 
+# es el que mayor AIC muestra
+help(datasets)
+library(help="datasets")
+require(datasets); data(swiss); ?swiss
+# aplicar un modelo con la variable dependiente fertility a este 
+# modelo tienen que agregarle 3 variables independientes, van a realizar
+# una descripcion de la funcion summary del modelo compleo 
+# (vardep 0 indep1 + indep2 + indep3) la base de datos que van a usar el swiss
+# una vez que hagan la descripcion del modelo completo aplicar el criterio 
+# AIC para comparar los modelos posibles de su modelo completo, 
+# ya que hayan elegido un modelo con base en el AIC aplicarlo u 
+# describir la funcion summary de su mejor modelo segun AIC
+
