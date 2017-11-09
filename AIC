@@ -86,3 +86,53 @@ require(datasets); data(swiss); ?swiss
 # ya que hayan elegido un modelo con base en el AIC aplicarlo u 
 # describir la funcion summary de su mejor modelo segun AIC
 
+
+
+
+
+
+
+# Medicion estandarizada de la fecundidad e indicadores socioeconomicos para cadauna de las 47 provincias
+# Francesas hablantes de Suiza alrededor de 1888
+require (stats)
+base <- data.frame(swiss)
+
+# analisis exploratorio
+names(base)
+pairs(base)
+cor(base)
+
+
+#modelo propuesto anteriormente 
+nulo <- lm(Fertility ~ 1, data = base)
+summary(nulo)
+completo <- lm(Fertility ~ ., data = base) # lm (fertility ~ Infant.mortality + eduation
+# + examination + agriculture + catholic)
+step(nulo, scope = list(lower=nulo, upper=completo), direction = "forward")
+summary(completo)
+help (step)
+
+
+
+
+
+###########     CON OTRA BASE        ##3
+# Medicion estandarizada de la fecundidad e indicadores socioeconomicos para cadauna de las 47 provincias
+# Francesas hablantes de Suiza alrededor de 1888
+require (stats)
+base2 <- data.frame(rock )
+# analisis exploratorio
+names(base2)
+pairs(base2)
+cor(base2)
+
+
+#modelo propuesto anteriormente 
+nulo <- lm(area ~ 1, data = base2)
+summary(nulo)
+completo <- lm(area ~ ., data = base2) # lm (area ~ peri + shape + perm)
+step(nulo, scope = list(lower=nulo, upper=completo), direction = "forward")
+summary(completo)
+help (step)
+
+
