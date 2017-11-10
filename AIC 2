@@ -1,0 +1,88 @@
+# Medicion estandarizada 
+require (stats)
+base <- data.frame(Seatbelts)
+View(base)
+# analisis exploratorio
+names(base)
+pairs(base)
+cor(base)
+
+
+#modelo propuesto anteriormente 
+nulo <- lm(drivers ~ 1, data = base)
+summary(nulo)
+completo <- lm(drivers ~ ., data = base) # lm (fertility ~ Infant.mortality + eduation
+# + examination + agriculture + catholic)
+step(nulo, scope = list(lower=nulo, upper=completo), direction = "forward")
+summary(completo)
+help (step)
+
+# Elijo el mejor modelo que obtengo del AIC
+mod1 <- lm(formula = drivers ~ DriversKilled + front + rear + law + VanKilled, 
+           data = base)
+summary(mod1)
+# Con la finalidad de observar aspectos basicos como la r cuadrada
+# ajustada que nos permite conocer la variabilidad explicada del modelo 
+# Los errores de residuos al standar 103.2, la significancia de las variables 
+# significativas, exepto la variable VanKilled
+
+# El estadistico F y el p-value para ver el ajuste del modelo 
+# La prueba de hipotesis que se aplica en el estadistico F es
+# Ho: B0,B1,B2b ..., Bk =0
+# Ha: Al menos un Bj diferente de cero
+# Aqui esperamos rechazar la hipotesis nula, por lo que el valor p-value
+# debe ser < .05 y ademas el estadistico F debe ser mayor a 1
+# Al parecer tenemos un buen modelo segun estos indicadores. 
+
+
+        #######PRUEBAS FORMALES DE LOS SUPUESTOS #######
+## Preuebas de MRM ##
+shapiro.test(rstudent(mod1)) # esta prueba shapiro para normalidad
+#  aqui esperamos no rechazar la hipotesis nula por lo que el valor 
+# de p-value debe ser mayor a .05, aqui observamos un p-value de .9973
+# por lo que podemos mencionar que no rechazamos la hipo nula, es decir, 
+# los errores se distribuyen normal 
+# Ho: Se distribuye normalmente
+# Ha. No se distribuye normalmente
+
+require(lmtest)
+bptest(mod1) 
+##### Prueba breusch pagar que permite ver autocorrelacion ####
+##### Ho. no hay 2 variables o mas que esten aportando al modelo 
+# aqui esperamos no rechazar la hip nula es decir un p-value 
+# mayor a .05, este modelo nos permite saber que no hay mas de 
+# dos variables que aporten lo mismo al modelo, en este caso
+# tenemos un p-value de .0298, por lo que  rechazamos la hip 
+# nula que es lo que estabamos esperando o se puede 
+# decir que este modelo NO cumple el supuesto de autocorrelacion 
+
+
+### HASTA AQUI SE LLEGA, YA QUE NO CUMPLIO CON EL SUPUESTO DE CORRELACION###
+
+######################################################
+dwtest(mod1, alternative = "two.sided") # prueba independencia 
+summary(mod1)
+
+#La prueba t para Ho: I^2 Agri =0 frente a 
+# Ha: I^2 Agri != 0 es significatica ya que 0.0187 es menor que .05
+# interpretacion de coeficientes
+# El modelo elegido estima que hay una disminucion de 0.15
+# en la tasa de fecundidad por cada aumento de 1 por cierto de hombres
+# involucrados en la agricultura manteniendo constantes las variables restantes 
+# Agriculture... -0.1546........ coeficiente
+
+# El modelo elegido estima que hay una disminucion de 0.98
+# en la tasa de fecundidad cada aumento de 1 por cierto de la educacion 
+# manteniendo constantes las variables restantes
+# Education... -0.9802... coeficientes
+
+# El modelo elegido estima que hay un incremento de 0.12
+# en la tasa de fecundidad cada aumento de 1 por cierto de la poblacion 
+# catolica manteniendo constantes las variables restantes, 
+# catholic... 0.1246 ... coeficientes
+
+# El modelo elegido estima que hay un incremento de 1.07
+# en la tasa de fecundidad cada auemnto de 1 por ciento de mortalidad
+# infantil manteniendo constantes las variables restantes
+# infart mortality... 1.07 ... coeficientes
+
