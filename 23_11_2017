@@ -1,0 +1,45 @@
+# Ejercicio de clase
+# Analisis de entregas de productos. 
+# Se utiliza tiempo de var dependiente para decirle a los clientes cuando va a tardar en llegar el producto
+# Saben que las var que impactan en el tiempo de entrega son la distancia y el numero de cajas
+
+cajas <- c(10,15,10,20,25,18,12,14,16,22,24,17,13,30,24)
+distancia <- c(30,25,40,18,22,31,26,34,29,37,20,25,27,23,33)
+tiempo <- c(24,27,29,31,25,33,26,28,31,39,33,30,25,42,40) # v. dependiente
+
+base <- data.frame(cajas, distancia, tiempo)
+pairs(base)
+cor(base)
+
+nulo <- lm( tiempo ~ 1 , data= base) 
+completo <- lm(tiempo~ . , data = base)  
+step (nulo, scope = list(lower= nulo, upper= completo), direction= "forward") 
+
+modelo <- lm(formula = tiempo ~ cajas + distancia, data = base)
+summary(modelo)
+
+###############           Pruebas           ##############
+shapiro.test(rstudent(modelo)) 
+# NO cumple el supuesto de normalidad con un p-value de .000001985
+require(lmtest)
+bptest(modelo) 
+# cumple el supuesto de homocedasticidad porque tiene un p-value mayor a o.005  el cual es, 0.2669
+dwtest(modelo, alternative = "two.sided") 
+# cumple el supuesto de independencia con un p-value mayor a 0.05 el cual es 0.2072
+
+
+
+install.packages("car")
+require(car)
+outlierTest (allreg, cutoff=.05, n.max =5, order =T)
+influencePlot(allreg, id.n =5)
+# La observacion 5 indican con problemas
+# ahora para confirmar los casos que tienen implicaciones
+# en el modelo se aplica grafico de distancias de cook
+cmod <- cooks.distance(allreg)
+install.packages("faraway")
+require(faraway)
+halfnorm(cnorm2, labs = etique, ylab = "dist cook")
+# aqui esperamos un dato mayor a 1 para compobar que si es atipico
+# el numero mas alto es el 5 por lo que ahora una solucion es eliminarlo
+# volver aplicar shapiro test
