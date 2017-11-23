@@ -1,0 +1,163 @@
+tasa.respiracion<-c(71,53,55,48,69,84,21,68,68)
+potasio<-c(388,258,292,205,449,331,114,580,622)
+zinc<-c(2414,10693,11682,12560,2464,2607,16205,2005,1825)
+estudio<-data.frame(tasa.respiracion,potasio,zinc)
+pairs(estudio)
+cor(estudio)
+regnull<-lm(tasa.respiracion~1,data = estudio)
+allreg<-lm(tasa.respiracion~.,data = estudio)
+mod1<-lm(formula = tasa.respiracion ~ zinc, data = estudio)
+summary(mod1)
+##############LIMTITES PARA PREDECIR
+limestudio<- seq(min(estudio$zinc),max(estudio$zinc),length=9)
+limestudio<-data.frame(limestudio)
+limestudio
+limestud<-predict.lm(allreg ,limestudio,interval = "prediction",se.fit = TRUE,data=estudio)
+head(limestud$fit)
+##se generan los limites
+matplot(limestudio,limestud$fit,type = "l",xlab = "hola",ylab = "mundo")
+###predicciones
+predict(allreg,data.frame(zinc=10000,potasio=40),interval = "predict")
+#-----------------ritmo cardicaco personas con diabetes-------------------
+peso<-c(74,92,63,58,78,85,85,73,62,80,72,74)
+altura<-c(168,196,170,175,162,169,190,186,176,170,176,179)
+ritmo<-c(62,75,60,71,66,62,79,74,70,66,71,69)
+edad<-c(25,31,29,64,44,41,37,35,34,29,19,50)
+bs<-data.frame(ritmo,peso,altura,edad)
+allrg<-lm(ritmo~.,data = bs)
+##############LIMTITES PARA PREDECIR
+limstud<- seq(min(bs$altura),max(bs$altura),length=12)
+limstud2<- seq(min(bs$peso),max(bs$peso),length=12)
+limstud3<- seq(min(bs$edad),max(bs$edad),length=12)
+limstud<-data.frame(limstud,limstud2,limstud3)
+limstd<-predict.lm(allrg ,limstud,interval = "prediction",se.fit = TRUE,data=bs)
+head(limstd$fit)
+##se generan los limites
+matplot(limstd,limstd$fit,type = "l")
+###predicciones
+predict(allrg,data.frame(altura=190,peso=60,edad=61),interval = "predict")
+###---------------------------------------------------------------ejericio
+#Analiis de entrega de productos
+#se utiliza tiempo de var dep para decirle a los clietnes cuanto va tardar en llegar el 
+#producto. Saben que las var que impactan en el tiempo de entrega son la distancia y
+# el numero de cajas
+ncajas<-c(10,15,10,20,25,18,12,14,16,22,24,17,13,30,24)
+distancia<-c(30,25,40,18,22,31,26,34,29,37,20,25,27,23,33)
+tiempo<-c(24,27,29,31,25,33,26,28,31,39,33,30,25,42,40)
+bas<-data.frame(tiempo,ncajas,distancia)
+pairs(bas)
+cor(bas)
+nulo<-lm(tiempo~1,data = bas)
+completo<-lm(tiempo~.,data = bas)
+step(nulo,scope = list(lower=nulo,upper=completo),direction = "forward")
+modelo<-lm(formula = tiempo ~ ncajas + distancia, data = bas)
+summary(modelo)
+#Adjusted R-squared: 0.6929 
+#p-value: 0.0003325
+##pruebas formales
+shapiro.test(rstudent(modelo))
+#p-value = 1.985e-06
+install.packages("lmtest")tasa.respiracion<-c(71,53,55,48,69,84,21,68,68)
+potasio<-c(388,258,292,205,449,331,114,580,622)
+zinc<-c(2414,10693,11682,12560,2464,2607,16205,2005,1825)
+estudio<-data.frame(tasa.respiracion,potasio,zinc)
+pairs(estudio)
+cor(estudio)
+regnull<-lm(tasa.respiracion~1,data = estudio)
+allreg<-lm(tasa.respiracion~.,data = estudio)
+mod1<-lm(formula = tasa.respiracion ~ zinc, data = estudio)
+summary(mod1)
+##############LIMTITES PARA PREDECIR
+limestudio<- seq(min(estudio$zinc),max(estudio$zinc),length=9)
+limestudio<-data.frame(limestudio)
+limestudio
+limestud<-predict.lm(allreg ,limestudio,interval = "prediction",se.fit = TRUE,data=estudio)
+head(limestud$fit)
+##se generan los limites
+matplot(limestudio,limestud$fit,type = "l",xlab = "hola",ylab = "mundo")
+###predicciones
+predict(allreg,data.frame(zinc=10000,potasio=40),interval = "predict")
+#-----------------ritmo cardicaco personas con diabetes-------------------
+peso<-c(74,92,63,58,78,85,85,73,62,80,72,74)
+altura<-c(168,196,170,175,162,169,190,186,176,170,176,179)
+ritmo<-c(62,75,60,71,66,62,79,74,70,66,71,69)
+edad<-c(25,31,29,64,44,41,37,35,34,29,19,50)
+bs<-data.frame(ritmo,peso,altura,edad)
+allrg<-lm(ritmo~.,data = bs)
+##############LIMTITES PARA PREDECIR
+limstud<- seq(min(bs$altura),max(bs$altura),length=12)
+limstud2<- seq(min(bs$peso),max(bs$peso),length=12)
+limstud3<- seq(min(bs$edad),max(bs$edad),length=12)
+limstud<-data.frame(limstud,limstud2,limstud3)
+limstd<-predict.lm(allrg ,limstud,interval = "prediction",se.fit = TRUE,data=bs)
+head(limstd$fit)
+##se generan los limites
+matplot(limstd,limstd$fit,type = "l")
+###predicciones
+predict(allrg,data.frame(altura=190,peso=60,edad=61),interval = "predict")
+###---------------------------------------------------------------ejericio
+#Analiis de entrega de productos
+#se utiliza tiempo de var dep para decirle a los clietnes cuanto va tardar en llegar el 
+#producto. Saben que las var que impactan en el tiempo de entrega son la distancia y
+# el numero de cajas
+ncajas<-c(10,15,10,20,25,18,12,14,16,22,24,17,13,30,24)
+distancia<-c(30,25,40,18,22,31,26,34,29,37,20,25,27,23,33)
+tiempo<-c(24,27,29,31,25,33,26,28,31,39,33,30,25,42,40)
+bas<-data.frame(tiempo,ncajas,distancia)
+pairs(bas)
+cor(bas)
+nulo<-lm(tiempo~1,data = bas)
+completo<-lm(tiempo~.,data = bas)
+step(nulo,scope = list(lower=nulo,upper=completo),direction = "forward")
+modelo<-lm(formula = tiempo ~ ncajas + distancia, data = bas)
+summary(modelo)
+#Adjusted R-squared: 0.6929 
+#p-value: 0.0003325
+##pruebas formales
+shapiro.test(rstudent(modelo))
+#p-value = 1.985e-06
+install.packages("lmtest")
+require(lmtest)
+bptest(modelo)
+#p-value = 0.2669
+##independecian entre los residuos 
+dwtest(modelo,alternative = "two.sided")
+#p-value = 0.2072
+##cumple con todos los supuestos
+#ecuacion del modelo
+#y=2.3112+(0.8772)x1 + 0.4559x2 + e
+help(car)
+install.packages("car")
+require(car)
+outlierTest(completo,outoff=.05,n.max=5,order=T)
+influencePlot(completo,id.n=5)
+#la observacion 5 indican problemas
+#ahora para confirmar los casos que tienen implicaciones
+#en el modelo se aplica el grafico de distancias de cook
+cmod2<-(cooks.distance(completo))
+install.packages("faraway")
+require(faraway)
+etique<-rownames(ejer)
+halfnorm(cmod2,labs=etique,ylab="dist cook")
+require(lmtest)
+bptest(modelo)
+#p-value = 0.2669
+##independecian entre los residuos 
+dwtest(modelo,alternative = "two.sided")
+#p-value = 0.2072
+##cumple con todos los supuestos
+#ecuacion del modelo
+#y=2.3112+(0.8772)x1 + 0.4559x2 + e
+help(car)
+install.packages("car")
+require(car)
+outlierTest(completo,outoff=.05,n.max=5,order=T)
+influencePlot(completo,id.n=5)
+#la observacion 5 indican problemas
+#ahora para confirmar los casos que tienen implicaciones
+#en el modelo se aplica el grafico de distancias de cook
+cmod2<-(cooks.distance(completo))
+install.packages("faraway")
+require(faraway)
+etique<-rownames(ejer)
+halfnorm(cmod2,labs=etique,ylab="dist cook")
