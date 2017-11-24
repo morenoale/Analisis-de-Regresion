@@ -1,0 +1,64 @@
+# BASE 2
+ +
+ +#Donde
+ +
+ +#AP: Precio Promedio
+ +#CPC: Consumo por cliente
+ +
+ +city <-c("Am","Bo","Da","Sh","Ro","Te","Co","Pa","Ma","Io","Pal","Mill","Mem","Gra","Lla","Bro","Mer","Kam","Mat","LaP")
+ +AP <-c(30,31,37,42,43,45,50,54,54,57,58,58,60,73,88,89,92,97,100,102)
+ +CPC <-c(134,112,136,109,105,87,56,43,77,35,65,56,58,55,49,39,36,46,40,42)
+ +prima <-c(200,205,198,315,211,310,200,306,245,287,298,264,255,306,315,222,244,158,166,216)
+ +
+ +
+ +##Generar 3 modelos con los datos anteriores
+ +## 1. Para cada modelo, encuentre el valor de R2 y AIC, y genere una grafica residual
+ +## Comente la adecuación de los tres modelos
+ +
+ +base <- data.frame(AP, CPC, prima)
+ +pairs(base)
+ +cor(base)
+ +
+ +nulo <- lm(AP ~ 1 , data= base) 
+ +
+ +completo <- lm(AP~ . , data = base)  
+ +
+ +step (nulo, scope = list(lower= nulo, upper= completo), direction= "forward") 
+ +
+ +modelo1 <- lm(formula = AP ~ 1, data = base)
+ +##El modelo 1 tiene un AIC de 127.59
+ +summary(modelo1)
+ +
+ +modelo2 <- lm(formula = AP ~ CPC, data = base)
+ +##El modelo 2 tiene un AIC de 110.01 y una R2 de .6033
+ +summary(modelo2)
+ +
+ +modelo3 <- lm(formula = AP ~ CPC + prima, data = base)
+ +##El modelo 3 tiene un AIC de 107.41 y una R2 de .6663
+ +summary(modelo3)
+ +
+ +
+ +##El modelo3 es el mas adecuado ya que el valor de su AIC es el menor y la R2 es de .6663 que de igual manera es la R2 mas grande por lo cual el modelo es aceptable.
+ +
+ +
+ +
+ +
+ +#2.Para precios de 40,60,80,100 y 200 de CPC, calcule el AP
+ +# Utilizando el mejor modelo de los tres anteriores
+ +
+ +regnull<-lm(AP~1,data = base)
+ +allreg<-lm(AP~.,data = base)
+ +##############LIMTITES PARA PREDECIR
+ +limmodelo<- seq(min(base$AP),max(base$AP),length=20)
+ +limmodelo<-data.frame(limmodelo)
+ +limmodelo
+ +limmod<-predict.lm(allreg ,limmodelo,interval = "prediction",se.fit = TRUE,data=base)
+ +head(limmod$fit)
+ +##se generan los limites
+ +matplot(limmodelo,limmod$fit,type = "l",xlab = "hola",ylab = "mundo")
+ +###predicciones
+ +predict(allreg,data.frame(prima=40,CPC=40),interval = "predict")
+ +predict(allreg,data.frame(prima=60,CPC=60),interval = "predict")
+ +predict(allreg,data.frame(prima=80,CPC=80),interval = "predict")
+ +predict(allreg,data.frame(prima=100,CPC=100),interval = "predict")
+ +predict(allreg,data.frame(prima=200,CPC=200),interval = "predict")
