@@ -1,0 +1,43 @@
+# Regresion Logistica 
+# Base solo rural 
+
+require (foreign)
+base <- read.spss("C://Users//SALA-D5//Downloads//solorural.sav")
+
+# Encuesta modulo de trabajo infanti del INEGI 2013.
+# Niñas de 5 a 17 años de zonas rurales
+
+# Variable dependientes = persona para la que trabaja el dia (T_PER) 
+#    1.         Categorias:
+              # 1.Familiar 
+              # 2. No familiar
+              # 3. Cuenta propia
+              # 4. No sabe (Se debe borrar)
+
+# Variable independiente
+# 2.     Sexo (SEX)
+        # - Hombre
+        # - Mujer
+# Grupos de edad (EDA1)
+# 3. Jefe del Hogar (SEX_JEFE)
+      # - Hombre
+      # - Mujer
+# 4. Tamaño del hogar. (TAM_HOG)
+      # 1. 1 a 3
+      # 2. 4 a 5
+      # 3. 6 a 7
+      # 4. 8 y más personas
+# 5. Ocupación jefe del hogar. (OCU_JEFE)
+      # 1. Ocupado 
+      # 2. Desocupado 
+# 6. Tipo de apoyo recibido (T_APO1)
+      # 1. Beca para estudiar
+      # 2. Programa de gobierno 
+      # 3. Ayuda familiar 
+      # 4. Otro tipo de ayuda
+      # 5. No recibe
+
+# Hacer una matriz completa, eliminando el no sabe, no especificado. 
+# Hacer una base con las 7 variables que no interesan
+# Aplicar regresion logistica e interpretar los coefientes
+# Elininamos la Cuenta (interpretar todas las indep) o buscar funcion par ala multinomial. (EScoger 2 variables para indep)
